@@ -95,8 +95,17 @@ function renderNavigation() {
         cats[cat].push(a);
     });
 
+    // 固定分类顺序
+    const catOrder = ['个人成长', '管理心得', '职场感悟', '读书学习', '生活分享'];
+    const sortedCats = catOrder.filter(c => cats[c]);
+    // 追加未预定义的分类
+    for (const cat of Object.keys(cats)) {
+        if (!sortedCats.includes(cat)) sortedCats.push(cat);
+    }
+
     let html = '';
-    for (const [cat, items] of Object.entries(cats)) {
+    for (const cat of sortedCats) {
+        const items = cats[cat];
         html += `<li class="nav-category">${esc(cat)} <span class="nav-cat-count">${items.length}</span></li>`;
         items.forEach((a, idx) => {
             const num = String(idx + 1).padStart(2, '0');
