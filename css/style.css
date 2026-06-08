@@ -79,6 +79,14 @@ body{font-family:var(--font-sans);font-size:16px;line-height:1.8;color:var(--col
 .year-btn[data-year="2023"].active{background:var(--color-accent-2023);border-color:var(--color-accent-2023)}
 .year-btn[data-year="2024"].active{background:var(--color-accent-2024);border-color:var(--color-accent-2024)}
 
+/* --- 侧边栏合集入口 --- */
+.sidebar-collection{display:block;margin:10px 0 4px;padding:14px 12px;border-radius:var(--radius-md);background:linear-gradient(135deg,#ecf7f1,#e4f3ea);border:1px solid #b8d8c4;text-align:center;text-decoration:none;transition:all var(--transition-normal)}
+.sidebar-collection:hover{border-color:#8cc4a0;box-shadow:0 2px 12px rgba(26,107,75,.12);transform:translateY(-1px)}
+.sidebar-collection-icon{font-size:20px;margin-bottom:2px}
+.sidebar-collection-label{font-size:11px;color:#1a6b4b;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+.sidebar-collection-name{font-family:var(--font-serif);font-size:14px;font-weight:700;color:#14523a;margin-bottom:2px}
+.sidebar-collection-hint{font-size:11px;color:#3d8b64;opacity:.8}
+
 /* --- 侧边栏公众号引流 --- */
 .sidebar-wechat{margin:14px 0;padding:14px 12px;border-radius:var(--radius-md);background:linear-gradient(135deg,#f0f9e8,#ecf7e0);border:1px solid #c8e6b5;text-align:center;transition:all var(--transition-normal)}
 .sidebar-wechat:hover{border-color:#a5d67a;box-shadow:0 2px 12px rgba(126,188,67,.12);transform:translateY(-1px)}
@@ -247,6 +255,10 @@ body{font-family:var(--font-sans);font-size:16px;line-height:1.8;color:var(--col
     .sidebar-wechat{margin:12px 0;padding:16px 14px}
     .sidebar-wechat-name{font-size:15px}
     .sidebar-wechat-hint{font-size:12px}
+
+    .sidebar-collection{margin:8px 0 4px;padding:16px 14px}
+    .sidebar-collection-name{font-size:15px}
+    .sidebar-collection-hint{font-size:12px}
 
     .sidebar-donate{margin:8px 0 14px;padding:14px 12px}
     .sidebar-donate-qr{width:90px;height:90px}

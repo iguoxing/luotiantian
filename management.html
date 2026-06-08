@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理心得合集 · 罗罗的管理进化论</title>
+    <meta name="description" content="罗罗管理心得合集——24篇管理思考精华，关于带团队、向上管理、职场沟通的实战经验">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --mgmt-accent: #1a6b4b;
+            --mgmt-accent-light: #2e8b67;
+            --mgmt-accent-bg: #ecf7f1;
+            --mgmt-accent-soft: #f4faf7;
+            --mgmt-border: #c8e0d2;
+        }
+
+        /* --- 合集布局 --- */
+        .mgmt-page {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* --- 合集英雄区 --- */
+        .mgmt-hero {
+            text-align: center;
+            padding: 80px 24px 60px;
+            background: linear-gradient(180deg, var(--mgmt-accent-soft) 0%, #faf8f5 100%);
+            border-bottom: 1px solid var(--mgmt-border);
+            position: relative;
+            overflow: hidden;
+        }
+        .mgmt-hero::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(26,107,75,.04);
+            pointer-events: none;
+        }
+        .mgmt-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            left: -40px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(26,107,75,.03);
+            pointer-events: none;
+        }
+        .mgmt-hero-badge {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--mgmt-accent);
+            background: rgba(26,107,75,.1);
+            padding: 6px 18px;
+            border-radius: 20px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .mgmt-hero-title {
+            font-family: var(--font-serif);
+            font-size: clamp(28px,5vw,44px);
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+        .mgmt-hero-subtitle {
+            font-size: clamp(15px,2vw,18px);
+            color: #555;
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+            max-width: 500px;
+            margin: 0 auto 8px;
+        }
+        .mgmt-hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 24px;
+            position: relative;
+            z-index: 1;
+        }
+        .mgmt-stat {
+            text-align: center;
+        }
+        .mgmt-stat-num {
+            font-family: var(--font-serif);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--mgmt-accent);
+            line-height: 1;
+        }
+        .mgmt-stat-label {
+            font-size: 13px;
+            color: #888;
+            margin-top: 6px;
+        }
+        .mgmt-stat-divider {
+            width: 1px;
+            background: var(--mgmt-border);
+        }
+
+        /* --- 回到首页 --- */
+        .mgmt-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: var(--mgmt-accent);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            transition: all .2s;
+            position: relative;
+            z-index: 1;
+            margin-top: 20px;
+        }
+        .mgmt-back:hover {
+            opacity: .7;
+        }
+        .mgmt-back svg {
+            transition: transform .2s;
+        }
+        .mgmt-back:hover svg {
+            transform: translateX(-3px);
+        }
+
+        /* --- 分类介绍区 --- */
+        .mgmt-intro {
+            text-align: center;
+            padding: 48px 24px 16px;
+            color: #555;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+        .mgmt-intro strong {
+            color: var(--mgmt-accent);
+        }
+
+        /* --- 文章列表 --- */
+        .mgmt-articles {
+            padding: 16px 0 60px;
+        }
+        .mgmt-article-card {
+            padding: 28px 0;
+            border-bottom: 1px solid var(--color-divider);
+            transition: all .2s;
+        }
+        .mgmt-article-card:last-child {
+            border-bottom: none;
+        }
+        .mgmt-article-card:hover {
+            background: var(--mgmt-accent-soft);
+            margin: 0 -16px;
+            padding-left: 16px;
+            padding-right: 16px;
+            border-radius: var(--radius-md);
+        }
+        .mgmt-article-num {
+            display: inline-block;
+            font-size: 12px;
+            color: var(--mgmt-accent);
+            font-weight: 700;
+            opacity: .5;
+            margin-right: 10px;
+            min-width: 24px;
+        }
+        .mgmt-article-title {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1.5;
+            text-decoration: none;
+            display: inline;
+            transition: color .2s;
+        }
+        .mgmt-article-card:hover .mgmt-article-title {
+            color: var(--mgmt-accent);
+        }
+        .mgmt-article-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 6px;
+            font-size: 13px;
+            color: #999;
+            padding-left: 36px;
+        }
+        .mgmt-article-year {
+            display: inline-block;
+            padding: 1px 8px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .mgmt-year-2022 { background: #fdf2ed; color: #c44536; }
+        .mgmt-year-2023 { background: #fef6ee; color: #d4843a; }
+        .mgmt-year-2024 { background: #edf4fc; color: #3a7bd4; }
+
+        /* --- 合集底部 --- */
+        .mgmt-footer {
+            text-align: center;
+            padding: 60px 24px 40px;
+            color: #888;
+            font-size: 14px;
+            border-top: 1px solid var(--color-divider);
+        }
+        .mgmt-footer p {
+            margin-bottom: 4px;
+        }
+        .mgmt-footer-wechat {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--mgmt-accent);
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        /* --- 移动端适配 --- */
+        @media (max-width: 768px) {
+            .mgmt-hero {
+                padding: 60px 20px 44px;
+            }
+            .mgmt-hero-title {
+                font-size: 28px;
+            }
+            .mgmt-hero-subtitle {
+                font-size: 15px;
+            }
+            .mgmt-hero-stats {
+                gap: 24px;
+            }
+            .mgmt-stat-num {
+                font-size: 26px;
+            }
+            .mgmt-stat-label {
+                font-size: 12px;
+            }
+            .mgmt-articles {
+                padding: 8px 0 48px;
+            }
+            .mgmt-intro {
+                padding: 32px 16px 8px;
+                font-size: 14px;
+            }
+            .mgmt-article-title {
+                font-size: 16px;
+            }
+            .mgmt-article-meta {
+                font-size: 12px;
+                padding-left: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mgmt-hero {
+                padding: 48px 16px 36px;
+            }
+            .mgmt-hero-title {
+                font-size: 24px;
+                letter-spacing: 1px;
+            }
+            .mgmt-hero-badge {
+                font-size: 12px;
+                padding: 5px 14px;
+            }
+            .mgmt-hero-stats {
+                gap: 20px;
+            }
+            .mgmt-stat-num {
+                font-size: 24px;
+            }
+            .mgmt-article-title {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 阅读进度条 -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- 合集英雄区 -->
+    <section class="mgmt-hero">
+        <div class="mgmt-hero-badge">📋 精选合集</div>
+        <h1 class="mgmt-hero-title">管理心得</h1>
+        <p class="mgmt-hero-subtitle">关于带团队、向上管理、职场沟通的思考与实践</p>
+        <div class="mgmt-hero-stats" id="mgmtStats"></div>
+        <a href="index.html" class="mgmt-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            返回作品集首页
+        </a>
+    </section>
+
+    <!-- 分类介绍 -->
+    <div class="mgmt-page">
+        <div class="mgmt-intro">
+            这里汇集了<strong id="mgmtCount">24</strong>篇管理思考文章，涵盖团队建设、向上管理、领导力修炼、职场沟通等话题。每一篇都来自真实的管理实践与反思。
+        </div>
+
+        <!-- 文章列表 -->
+        <div class="mgmt-articles" id="mgmtArticles"></div>
+
+        <!-- 合集底部 -->
+        <div class="mgmt-footer">
+            <p class="mgmt-footer-wechat">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348z"/></svg>
+                罗罗的管理进化论
+            </p>
+            <p>关注公众号，阅读更多管理思考与职场感悟</p>
+            <p style="margin-top:16px;font-size:13px;">© 2022-2024 罗罗</p>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script>
+    (function() {
+        // 筛选管理心得文章
+        var mgmtArticles = window.ARTICLES_DATA.filter(function(a) {
+            return a.category === '管理心得';
+        });
+
+        // 更新统计
+        var years = {};
+        mgmtArticles.forEach(function(a) {
+            years[a.year] = (years[a.year] || 0) + 1;
+        });
+        var yearEntries = Object.entries(years).sort();
+
+        var statsHtml = '';
+        yearEntries.forEach(function(entry, i) {
+            if (i > 0) statsHtml += '<div class="mgmt-stat-divider"></div>';
+            statsHtml += '<div class="mgmt-stat"><div class="mgmt-stat-num">' + entry[1] + '</div><div class="mgmt-stat-label">' + entry[0] + ' 篇</div></div>';
+        });
+        document.getElementById('mgmtStats').innerHTML = statsHtml;
+        document.getElementById('mgmtCount').textContent = mgmtArticles.length;
+
+        // 转义函数
+        function esc(str) {
+            var d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
+
+        // 渲染文章列表
+        var articlesHtml = '';
+        mgmtArticles.forEach(function(a, idx) {
+            var num = String(idx + 1).padStart(2, '0');
+            var yearClass = 'mgmt-year-' + a.year;
+            var subtitle = a.subtitle ? '<p class="mgmt-article-subtitle">' + esc(a.subtitle) + '</p>' : '';
+
+            articlesHtml += '<div class="mgmt-article-card">';
+            articlesHtml += '<div>';
+            articlesHtml += '<span class="mgmt-article-num">' + num + '</span>';
+            articlesHtml += '<span class="mgmt-article-title">' + esc(a.title) + '</span>';
+            articlesHtml += '</div>';
+            if (a.subtitle) {
+                articlesHtml += '<div class="mgmt-article-meta" style="margin-top:2px;">';
+                articlesHtml += '<span style="padding-left:36px;color:#777;font-size:14px;">' + esc(a.subtitle) + '</span>';
+                articlesHtml += '</div>';
+            }
+            articlesHtml += '<div class="mgmt-article-meta">';
+            articlesHtml += '<span class="mgmt-article-year ' + yearClass + '">' + a.year + '</span>';
+            var wordCount = a.content_paragraphs ? a.content_paragraphs.join('').length : 0;
+            articlesHtml += '<span>约 ' + Math.round(wordCount / 1000 * 10) / 10 + 'k 字</span>';
+            articlesHtml += '</div>';
+            articlesHtml += '</div>';
+        });
+        document.getElementById('mgmtArticles').innerHTML = articlesHtml;
+
+        // 进度条
+        window.addEventListener('scroll', function() {
+            var scrollTop = window.scrollY;
+            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            document.getElementById('progressBar').style.width = Math.min(progress, 100) + '%';
+        });
+    })();
+    </script>
+</body>
+</html>
