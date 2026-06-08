@@ -265,115 +265,118 @@
 
     <script src="js/data.js"></script>
     <script>
-    (function() {
-        // 从 URL 参数获取文章 ID
-        var params = new URLSearchParams(window.location.search);
-        var articleId = parseInt(params.get('id'), 10);
+    document.addEventListener('DOMContentLoaded', function() {
+        try {
+            // 从 URL 参数获取文章 ID
+            var params = new URLSearchParams(window.location.search);
+            var articleId = parseInt(params.get('id'), 10);
 
-        // 筛选管理心得文章
-        var mgmtArticles = window.ARTICLES_DATA.filter(function(a) {
-            return a.category === '管理心得';
-        });
-
-        // 查找当前文章
-        var currentIdx = -1;
-        var article = null;
-        for (var i = 0; i < mgmtArticles.length; i++) {
-            if (mgmtArticles[i].id === articleId) {
-                article = mgmtArticles[i];
-                currentIdx = i;
-                break;
-            }
-        }
-
-        function esc(str) {
-            var d = document.createElement('div');
-            d.textContent = str || '';
-            return d.innerHTML;
-        }
-
-        // 更新页面标题
-        if (article) {
-            document.title = article.title + ' · 管理心得 · 罗罗的管理进化论';
-            document.querySelector('meta[name="description"]').setAttribute('content',
-                (article.subtitle || article.title) + '——来自罗罗的管理心得合集');
-        }
-
-        if (!article) {
-            // 未找到文章
-            document.getElementById('articleTitle').textContent = '文章未找到';
-            document.getElementById('articleBody').innerHTML = '<div class="article-not-found"><h2>😕</h2><p>找不到这篇文章</p><p><a href="management.html">← 返回管理心得合集</a></p></div>';
-            document.getElementById('footerNav').style.display = 'none';
-            return;
-        }
-
-        // 显示文章索引
-        document.getElementById('articleIndex').textContent = (currentIdx + 1) + ' / ' + mgmtArticles.length;
-
-        // 头部
-        var yearClass = 'year-' + article.year;
-        document.getElementById('articleYearBadge').innerHTML = '<span class="article-year-badge ' + yearClass + '">' + article.year + '</span>';
-        var wordCount = article.content_paragraphs ? article.content_paragraphs.join('').length : 0;
-        document.getElementById('articleWordCount').textContent = '约 ' + (Math.round(wordCount / 100) / 10).toFixed(1) + 'k 字';
-        document.getElementById('articleTitle').textContent = article.title;
-        if (article.subtitle) {
-            document.getElementById('articleSubtitle').textContent = article.subtitle;
-            document.getElementById('articleSubtitle').style.display = '';
-        } else {
-            document.getElementById('articleSubtitle').style.display = 'none';
-        }
-
-        // 正文
-        var bodyHtml = '';
-        if (article.content_paragraphs) {
-            article.content_paragraphs.forEach(function(p) {
-                bodyHtml += '<p>' + esc(p) + '</p>';
+            // 筛选管理心得文章
+            var allData = window.ARTICLES_DATA || [];
+            var mgmtArticles = allData.filter(function(a) {
+                return a.category === '管理心得';
             });
-        }
-        document.getElementById('articleBody').innerHTML = bodyHtml;
 
-        // 底部导航
-        var footerHtml = '<div>';
-        if (currentIdx > 0) {
-            var prev = mgmtArticles[currentIdx - 1];
-            footerHtml += '<a href="management-article.html?id=' + prev.id + '" class="article-prev">';
-            footerHtml += '<span class="article-footer-label">← 上一篇</span>';
-            footerHtml += esc(prev.title);
-            footerHtml += '</a>';
-        } else {
-            footerHtml += '<span></span>';
-        }
-        footerHtml += '</div>';
-        footerHtml += '<div style="text-align:right;">';
-        if (currentIdx < mgmtArticles.length - 1) {
-            var next = mgmtArticles[currentIdx + 1];
-            footerHtml += '<a href="management-article.html?id=' + next.id + '" class="article-next">';
-            footerHtml += '<span class="article-footer-label">下一篇 →</span>';
-            footerHtml += esc(next.title);
-            footerHtml += '</a>';
-        } else {
-            footerHtml += '<span></span>';
-        }
-        footerHtml += '</div>';
-        document.getElementById('footerNav').innerHTML = footerHtml;
-
-        // 进度条
-        window.addEventListener('scroll', function() {
-            var scrollTop = window.scrollY;
-            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            document.getElementById('progressBar').style.width = Math.min(progress, 100) + '%';
-        });
-
-        // 键盘导航
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowLeft' && currentIdx > 0) {
-                window.location.href = 'management-article.html?id=' + mgmtArticles[currentIdx - 1].id;
-            } else if (e.key === 'ArrowRight' && currentIdx < mgmtArticles.length - 1) {
-                window.location.href = 'management-article.html?id=' + mgmtArticles[currentIdx + 1].id;
+            // 查找当前文章
+            var currentIdx = -1;
+            var article = null;
+            for (var i = 0; i < mgmtArticles.length; i++) {
+                if (mgmtArticles[i].id === articleId) {
+                    article = mgmtArticles[i];
+                    currentIdx = i;
+                    break;
+                }
             }
-        });
-    })();
+
+            function esc(str) {
+                var d = document.createElement('div');
+                d.textContent = str || '';
+                return d.innerHTML;
+            }
+
+            if (!article) {
+                document.getElementById('articleTitle').textContent = '文章未找到';
+                document.getElementById('articleBody').innerHTML = '<div class="article-not-found"><h2>😕</h2><p>找不到这篇文章</p><p><a href="management.html">← 返回管理心得合集</a></p></div>';
+                document.getElementById('footerNav').style.display = 'none';
+                return;
+            }
+
+            // 更新页面标题
+            document.title = article.title + ' · 管理心得 · 罗罗的管理进化论';
+
+            // 显示文章索引
+            document.getElementById('articleIndex').textContent = (currentIdx + 1) + ' / ' + mgmtArticles.length;
+
+            // 头部信息
+            var yearClass = 'year-' + article.year;
+            document.getElementById('articleYearBadge').innerHTML = '<span class="article-year-badge ' + yearClass + '">' + article.year + '</span>';
+            var wordCount = article.content_paragraphs ? article.content_paragraphs.join('').length : 0;
+            document.getElementById('articleWordCount').textContent = '约 ' + (Math.round(wordCount / 100) / 10).toFixed(1) + 'k 字';
+            document.getElementById('articleTitle').textContent = article.title;
+            if (article.subtitle) {
+                document.getElementById('articleSubtitle').textContent = article.subtitle;
+                document.getElementById('articleSubtitle').style.display = '';
+            } else {
+                document.getElementById('articleSubtitle').style.display = 'none';
+            }
+
+            // 正文
+            var bodyHtml = '';
+            if (article.content_paragraphs && article.content_paragraphs.length > 0) {
+                for (var pi = 0; pi < article.content_paragraphs.length; pi++) {
+                    bodyHtml += '<p>' + esc(article.content_paragraphs[pi]) + '</p>';
+                }
+            } else {
+                bodyHtml = '<p style="color:#999;text-align:center;text-indent:0;">暂无内容</p>';
+            }
+            document.getElementById('articleBody').innerHTML = bodyHtml;
+
+            // 底部导航
+            var footerHtml = '<div>';
+            if (currentIdx > 0) {
+                var prev = mgmtArticles[currentIdx - 1];
+                footerHtml += '<a href="management-article.html?id=' + prev.id + '" class="article-prev">';
+                footerHtml += '<span class="article-footer-label">← 上一篇</span>';
+                footerHtml += esc(prev.title);
+                footerHtml += '</a>';
+            } else {
+                footerHtml += '<span></span>';
+            }
+            footerHtml += '</div><div style="text-align:right;">';
+            if (currentIdx < mgmtArticles.length - 1) {
+                var next = mgmtArticles[currentIdx + 1];
+                footerHtml += '<a href="management-article.html?id=' + next.id + '" class="article-next">';
+                footerHtml += '<span class="article-footer-label">下一篇 →</span>';
+                footerHtml += esc(next.title);
+                footerHtml += '</a>';
+            } else {
+                footerHtml += '<span></span>';
+            }
+            footerHtml += '</div>';
+            document.getElementById('footerNav').innerHTML = footerHtml;
+
+            // 进度条
+            window.addEventListener('scroll', function() {
+                var scrollTop = window.scrollY;
+                var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+                document.getElementById('progressBar').style.width = Math.min(progress, 100) + '%';
+            });
+
+            // 键盘导航
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft' && currentIdx > 0) {
+                    window.location.href = 'management-article.html?id=' + mgmtArticles[currentIdx - 1].id;
+                } else if (e.key === 'ArrowRight' && currentIdx < mgmtArticles.length - 1) {
+                    window.location.href = 'management-article.html?id=' + mgmtArticles[currentIdx + 1].id;
+                }
+            });
+        } catch (err) {
+            document.getElementById('articleTitle').textContent = '页面加载出错';
+            document.getElementById('articleBody').innerHTML = '<div class="article-not-found"><p>加载时出现错误，请<a href="management.html">返回合集</a>重试</p></div>';
+            console && console.error(err);
+        }
+    });
     </script>
 </body>
 </html>
