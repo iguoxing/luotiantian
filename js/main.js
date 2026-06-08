@@ -161,11 +161,29 @@ function renderArticles() {
             <span class="wechat-cta-action" onclick="void(0)">打开微信搜索关注</span>
         </div>`;
 
+    // 打赏 CTA 模板：文章中插赞赏引导
+    const donateHTML = `
+        <div class="donate-cta">
+            <div class="donate-cta-header">
+                <span class="donate-cta-icon">☕</span>
+                <div>
+                    <p class="donate-cta-title">如果文章对你有启发</p>
+                    <p class="donate-cta-subtitle">欢迎请罗罗喝杯咖啡，支持更多创作</p>
+                </div>
+            </div>
+            <div class="donate-cta-body">
+                <img class="donate-cta-qr" src="images/donate-qr.jpg" alt="微信赞赏码" loading="lazy">
+                <p class="donate-cta-hint">微信扫码 · 随心赞赏</p>
+            </div>
+        </div>`;
+
     let html = '';
     const yearColors = {2022:'year-2022', 2023:'year-2023', 2024:'year-2024'};
     const yearStrs = {2022:'二〇二二', 2023:'二〇二三', 2024:'二〇二四'};
     let articleCounter = 0;
+    let donateCounter = 0;
     const ctaInterval = currentYear === 'all' ? 12 : 8;
+    const donateInterval = currentYear === 'all' ? 25 : 12;
 
     for (const [year, yearArticles] of Object.entries(years).sort()) {
         if (currentYear === 'all') {
@@ -173,11 +191,16 @@ function renderArticles() {
         }
 
         yearArticles.forEach(a => {
-            // Insert CTA card every N articles
+            // Insert WeChat CTA card every N articles
             if (articleCounter > 0 && articleCounter % ctaInterval === 0) {
                 html += ctaHTML;
             }
+            // Insert donate card every ~25 articles (offset from CTA)
+            if (articleCounter > 0 && donateCounter > 0 && donateCounter % donateInterval === 0) {
+                html += donateHTML;
+            }
             articleCounter++;
+            donateCounter++;
 
             const paras = a.content_paragraphs || [];
             const bodyHtml = paras.map(p => `<p>${esc(p)}</p>`).join('\n');

@@ -87,6 +87,14 @@ body{font-family:var(--font-sans);font-size:16px;line-height:1.8;color:var(--col
 .sidebar-wechat-name{font-family:var(--font-serif);font-size:14px;font-weight:700;color:#3a6b1e;margin-bottom:2px}
 .sidebar-wechat-hint{font-size:11px;color:#7ebc43;opacity:.8}
 
+/* --- 侧边栏打赏 --- */
+.sidebar-donate{margin:10px 0 14px;padding:12px 10px;border-radius:var(--radius-md);background:linear-gradient(135deg,#fef9f0,#fdf3e4);border:1px solid #e8d5b0;text-align:center;transition:all var(--transition-normal)}
+.sidebar-donate:hover{border-color:#d4b88c;box-shadow:0 2px 12px rgba(196,142,60,.1)}
+.sidebar-donate-icon{font-size:22px;margin-bottom:4px}
+.sidebar-donate-label{font-size:11px;color:#b8860b;font-weight:600;margin-bottom:1px}
+.sidebar-donate-hint{font-size:11px;color:#c9a44b;margin-bottom:8px}
+.sidebar-donate-qr{width:100px;height:100px;border-radius:6px;border:1px solid #e8d5b0;background:#fff;object-fit:contain}
+
 /* --- 导航 --- */
 .sidebar-nav{flex:1;overflow-y:auto;margin-top:12px;padding-right:4px}
 .sidebar-nav::-webkit-scrollbar{width:3px}
@@ -169,11 +177,28 @@ body{font-family:var(--font-sans);font-size:16px;line-height:1.8;color:var(--col
 .wechat-cta-action:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(126,188,67,.4)}
 .wechat-cta-action:active{transform:translateY(0)}
 
+/* --- 文章中插打赏CTA --- */
+.donate-cta{margin:40px 0;padding:28px 32px;border-radius:var(--radius-lg);background:linear-gradient(135deg,#fef9f0 0%,#fdf3e4 100%);border:1px solid #e8d5b0;text-align:center;box-shadow:0 2px 16px rgba(196,142,60,.05)}
+.donate-cta-header{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:18px}
+.donate-cta-icon{font-size:28px;flex-shrink:0}
+.donate-cta-title{font-family:var(--font-serif);font-size:18px;font-weight:700;color:#8b6914;margin:0;line-height:1.4}
+.donate-cta-subtitle{font-size:13px;color:#b8963c;margin:2px 0 0;line-height:1.5}
+.donate-cta-body{display:flex;flex-direction:column;align-items:center}
+.donate-cta-qr{width:160px;height:160px;border-radius:var(--radius-md);border:2px solid #e8d5b0;background:#fff;object-fit:contain;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.donate-cta-hint{font-size:12px;color:#c9a44b;margin-top:8px;letter-spacing:.5px}
+
 /* --- 页脚公众号引流 --- */
 .footer-wechat{max-width:400px;margin:0 auto 32px;padding:28px 24px;border-radius:var(--radius-lg);background:linear-gradient(135deg,#f0f9e8,#ecf7e0);border:1px solid #c8e6b5;text-align:center}
 .footer-wechat-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#5da02c;background:rgba(126,188,67,.15);padding:5px 14px;border-radius:12px;letter-spacing:1px;margin-bottom:10px}
 .footer-wechat-name{font-family:var(--font-serif);font-size:20px;font-weight:700;color:#3a6b1e;margin-bottom:6px}
 .footer-wechat-desc{font-size:13px;color:#6a9b3c;line-height:1.6}
+
+/* --- 页脚打赏 --- */
+.footer-donate{max-width:400px;margin:0 auto 32px;padding:28px 24px;border-radius:var(--radius-lg);background:linear-gradient(135deg,#fef9f0,#fdf3e4);border:1px solid #e8d5b0;text-align:center}
+.footer-donate-title{font-family:var(--font-serif);font-size:18px;font-weight:700;color:#8b6914;margin-bottom:4px}
+.footer-donate-desc{font-size:13px;color:#b8963c;line-height:1.7;margin-bottom:16px}
+.footer-donate-qr{width:140px;height:140px;border-radius:var(--radius-md);border:2px solid #e8d5b0;background:#fff;object-fit:contain;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.footer-donate-hint{font-size:12px;color:#c9a44b;margin-top:8px;letter-spacing:.5px}
 
 /* --- 页脚 --- */
 .main-footer{text-align:center;padding:60px 40px;color:var(--color-text-secondary)}
@@ -222,6 +247,11 @@ body{font-family:var(--font-sans);font-size:16px;line-height:1.8;color:var(--col
     .sidebar-wechat-name{font-size:15px}
     .sidebar-wechat-hint{font-size:12px}
 
+    .sidebar-donate{margin:8px 0 14px;padding:14px 12px}
+    .sidebar-donate-qr{width:90px;height:90px}
+    .sidebar-donate-label{font-size:12px}
+    .sidebar-donate-hint{font-size:11px}
+
     .nav-list a{font-size:14px;padding:10px 12px;line-height:1.6}
     .nav-list .nav-number{font-size:12px}
     .nav-category{font-size:12px;padding:16px 12px 6px}
@@ -260,10 +290,19 @@ body{font-family:var(--font-sans);font-size:16px;line-height:1.8;color:var(--col
     .wechat-cta-desc{font-size:14px}
     .wechat-cta-action{font-size:14px;padding:12px 36px}
 
+    .donate-cta{margin:24px 0;padding:24px 18px}
+    .donate-cta-title{font-size:17px}
+    .donate-cta-subtitle{font-size:13px}
+    .donate-cta-qr{width:140px;height:140px}
+
     .main-footer{padding:48px 24px}
     .footer-wechat{padding:28px 20px;margin-bottom:28px}
     .footer-wechat-name{font-size:19px}
     .footer-wechat-desc{font-size:14px}
+    .footer-donate{padding:24px 18px;margin-bottom:28px}
+    .footer-donate-title{font-size:17px}
+    .footer-donate-desc{font-size:13px}
+    .footer-donate-qr{width:130px;height:130px}
     .main-footer p{font-size:16px}
     .footer-sub{font-size:14px!important}
 
@@ -298,4 +337,10 @@ body{font-family:var(--font-sans);font-size:16px;line-height:1.8;color:var(--col
     .footer-wechat-desc{font-size:13px}
 
     .year-btn{font-size:13px;padding:7px 4px}
+
+    .donate-cta{padding:20px 14px}
+    .donate-cta-title{font-size:16px}
+    .donate-cta-qr{width:128px;height:128px}
+    .footer-donate{padding:20px 14px}
+    .footer-donate-qr{width:120px;height:120px}
 }
