@@ -97,12 +97,13 @@ function renderNavigation() {
 
     let html = '';
     for (const [cat, items] of Object.entries(cats)) {
-        html += `<li class="nav-category">${esc(cat)}</li>`;
-        items.forEach(a => {
+        html += `<li class="nav-category">${esc(cat)} <span class="nav-cat-count">${items.length}</span></li>`;
+        items.forEach((a, idx) => {
+            const num = String(idx + 1).padStart(2, '0');
             html += `
                 <li>
                     <a href="#article-${a.id}" data-id="${a.id}">
-                        <span class="nav-number">${cnNum(a.id)}</span>
+                        <span class="nav-number">${num}</span>
                         <span style="flex:1;min-width:0">${esc(a.title)}</span>
                         <span class="nav-year-badge">${a.year}</span>
                     </a>

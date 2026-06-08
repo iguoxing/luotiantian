@@ -106,8 +106,9 @@ body{font-family:var(--font-sans);font-size:16px;line-height:1.8;color:var(--col
 .nav-list a.active{background:var(--color-accent-bg);color:var(--color-accent);font-weight:600;border-left-color:var(--color-accent)}
 .nav-list .nav-number{font-size:11px;color:var(--color-accent);font-weight:600;opacity:.6;min-width:20px;flex-shrink:0;text-align:right}
 .nav-list .nav-year-badge{display:inline-block;font-size:10px;padding:0 5px;border-radius:8px;font-weight:500;flex-shrink:0;margin-top:1px;background:#eee;color:#999}
-.nav-category{font-size:11px;letter-spacing:.5px;color:var(--color-text-light);padding:14px 10px 4px;font-weight:500}
+.nav-category{font-size:11px;letter-spacing:.5px;color:var(--color-text-light);padding:14px 10px 4px;font-weight:500;display:flex;align-items:center;gap:6px}
 .nav-category:first-child{padding-top:0}
+.nav-cat-count{font-size:10px;color:var(--color-text-light);background:rgba(0,0,0,.06);padding:1px 6px;border-radius:8px;letter-spacing:0;font-weight:400;opacity:.7}
 
 /* --- 侧边栏底部 --- */
 .sidebar-footer{padding-top:16px;border-top:1px solid var(--color-border);text-align:center}
