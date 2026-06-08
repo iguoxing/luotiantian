@@ -79,6 +79,14 @@ body{font-family:var(--font-sans);font-size:16px;line-height:1.8;color:var(--col
 .year-btn[data-year="2023"].active{background:var(--color-accent-2023);border-color:var(--color-accent-2023)}
 .year-btn[data-year="2024"].active{background:var(--color-accent-2024);border-color:var(--color-accent-2024)}
 
+/* --- 侧边栏公众号引流 --- */
+.sidebar-wechat{margin:14px 0;padding:14px 12px;border-radius:var(--radius-md);background:linear-gradient(135deg,#f0f9e8,#ecf7e0);border:1px solid #c8e6b5;text-align:center;transition:all var(--transition-normal)}
+.sidebar-wechat:hover{border-color:#a5d67a;box-shadow:0 2px 12px rgba(126,188,67,.12);transform:translateY(-1px)}
+.sidebar-wechat-icon{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7ebc43,#5da02c);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;box-shadow:0 3px 10px rgba(126,188,67,.3)}
+.sidebar-wechat-label{font-size:11px;color:#5da02c;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+.sidebar-wechat-name{font-family:var(--font-serif);font-size:14px;font-weight:700;color:#3a6b1e;margin-bottom:2px}
+.sidebar-wechat-hint{font-size:11px;color:#7ebc43;opacity:.8}
+
 /* --- 导航 --- */
 .sidebar-nav{flex:1;overflow-y:auto;margin-top:12px;padding-right:4px}
 .sidebar-nav::-webkit-scrollbar{width:3px}
@@ -150,6 +158,23 @@ body{font-family:var(--font-sans);font-size:16px;line-height:1.8;color:var(--col
 .empty-state p{font-size:16px;margin-bottom:8px}
 .empty-state .empty-icon{font-size:48px;margin-bottom:16px;opacity:.4}
 
+/* --- 文章中插公众号CTA --- */
+.wechat-cta{margin:40px 0;padding:32px 28px;border-radius:var(--radius-lg);background:linear-gradient(135deg,#f0f9e8 0%,#e8f5db 100%);border:1px solid #c8e6b5;text-align:center;position:relative;overflow:hidden;box-shadow:0 2px 16px rgba(126,188,67,.06)}
+.wechat-cta::before{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;border-radius:50%;background:rgba(126,188,67,.06);pointer-events:none}
+.wechat-cta::after{content:'';position:absolute;bottom:-20px;left:-20px;width:70px;height:70px;border-radius:50%;background:rgba(126,188,67,.04);pointer-events:none}
+.wechat-cta-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#5da02c;background:rgba(126,188,67,.15);padding:4px 14px;border-radius:12px;letter-spacing:1px;position:relative;z-index:1;margin-bottom:12px}
+.wechat-cta-name{font-family:var(--font-serif);font-size:22px;font-weight:700;color:#3a6b1e;margin-bottom:6px;position:relative;z-index:1}
+.wechat-cta-desc{font-size:14px;color:#6a9b3c;position:relative;z-index:1;line-height:1.6}
+.wechat-cta-action{display:inline-block;margin-top:16px;padding:10px 32px;background:linear-gradient(135deg,#7ebc43,#5da02c);color:#fff;border-radius:24px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all var(--transition-fast);position:relative;z-index:1;text-decoration:none;box-shadow:0 4px 14px rgba(126,188,67,.3)}
+.wechat-cta-action:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(126,188,67,.4)}
+.wechat-cta-action:active{transform:translateY(0)}
+
+/* --- 页脚公众号引流 --- */
+.footer-wechat{max-width:400px;margin:0 auto 32px;padding:28px 24px;border-radius:var(--radius-lg);background:linear-gradient(135deg,#f0f9e8,#ecf7e0);border:1px solid #c8e6b5;text-align:center}
+.footer-wechat-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#5da02c;background:rgba(126,188,67,.15);padding:5px 14px;border-radius:12px;letter-spacing:1px;margin-bottom:10px}
+.footer-wechat-name{font-family:var(--font-serif);font-size:20px;font-weight:700;color:#3a6b1e;margin-bottom:6px}
+.footer-wechat-desc{font-size:13px;color:#6a9b3c;line-height:1.6}
+
 /* --- 页脚 --- */
 .main-footer{text-align:center;padding:60px 40px;color:var(--color-text-secondary)}
 .footer-divider{width:60px;height:2px;background:var(--color-accent);opacity:.3;margin:0 auto 20px}
@@ -198,6 +223,12 @@ body{font-family:var(--font-sans);font-size:16px;line-height:1.8;color:var(--col
 
     .back-to-top{bottom:20px;right:16px;width:38px;height:38px}
     .main-footer{padding:40px 24px}
+
+    .wechat-cta{margin:32px 0;padding:24px 18px}
+    .wechat-cta-name{font-size:19px}
+    .wechat-cta-desc{font-size:13px}
+    .footer-wechat{padding:22px 18px}
+    .footer-wechat-name{font-size:18px}
 }
 
 /* --- 小屏 (≤ 480px) --- */

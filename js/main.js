@@ -147,9 +147,25 @@ function renderArticles() {
         years[a.year].push(a);
     });
 
+    // CTA 模板：文章中插公众号引导
+    const ctaHTML = `
+        <div class="wechat-cta">
+            <div class="wechat-cta-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.906 2.5 3.18 4.036 5.93 4.036a6.8 6.8 0 0 0 2.588-.49.648.648 0 0 1 .536.074l1.429.835a.242.242 0 0 0 .124.04c.12 0 .217-.1.217-.22 0-.053-.021-.108-.035-.16l-.293-1.113a.44.44 0 0 1 .16-.497C22.07 18.297 24 16.258 24 13.92c0-2.7-2.636-5.062-7.062-5.062zm-6.316 2.066c.535 0 .969.44.969.983a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.544.434-.983.97-.983zm4.845 0c.535 0 .969.44.969.983a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.544.434-.983.97-.983z"/>
+                </svg>
+                关注公众号
+            </div>
+            <p class="wechat-cta-name">罗罗的管理进化论</p>
+            <p class="wechat-cta-desc">更多管理思考、职场感悟与个人成长，<br>欢迎关注微信公众号。</p>
+            <span class="wechat-cta-action" onclick="void(0)">打开微信搜索关注</span>
+        </div>`;
+
     let html = '';
     const yearColors = {2022:'year-2022', 2023:'year-2023', 2024:'year-2024'};
     const yearStrs = {2022:'二〇二二', 2023:'二〇二三', 2024:'二〇二四'};
+    let articleCounter = 0;
+    const ctaInterval = currentYear === 'all' ? 12 : 8;
 
     for (const [year, yearArticles] of Object.entries(years).sort()) {
         if (currentYear === 'all') {
@@ -157,6 +173,12 @@ function renderArticles() {
         }
 
         yearArticles.forEach(a => {
+            // Insert CTA card every N articles
+            if (articleCounter > 0 && articleCounter % ctaInterval === 0) {
+                html += ctaHTML;
+            }
+            articleCounter++;
+
             const paras = a.content_paragraphs || [];
             const bodyHtml = paras.map(p => `<p>${esc(p)}</p>`).join('\n');
             const badgeClass = yearColors[a.year] || 'year-2022';
