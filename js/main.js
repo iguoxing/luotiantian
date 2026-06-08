@@ -1,51 +1,60 @@
 /**
- * 罗罗作品集 - 主脚本
+ * 罗罗作品集 2022-2024 · 主脚本 v2
+ * 多年份支持 · 分类过滤 · 访问统计
  */
-
-// ============================================
-// 文章数据加载
-// ============================================
 let articles = [];
+let currentYear = 'all';
 
+// ============================================
+// 加载
+// ============================================
 function loadArticles() {
     try {
         if (window.ARTICLES_DATA && Array.isArray(window.ARTICLES_DATA)) {
             articles = window.ARTICLES_DATA;
             initApp();
         } else {
-            // Fallback: try fetch
-            fetch('articles.json')
-                .then(r => r.json())
-                .then(data => {
-                    articles = data;
-                    initApp();
-                })
-                .catch(() => {
-                    document.getElementById('articlesContainer').innerHTML =
-                        '<p style="text-align:center;padding:80px;color:#999;">文章加载失败，请刷新页面重试</p>';
-                });
+            fetch('articles.json').then(r => r.json()).then(data => {
+                articles = data;
+                initApp();
+            }).catch(() => {
+                document.getElementById('articlesContainer').innerHTML =
+                    '<div class="empty-state"><div class="empty-icon">📄</div><p>文章加载失败</p><p style="font-size:13px">请刷新页面重试</p></div>';
+            });
         }
     } catch (err) {
-        console.error('Failed to load articles:', err);
+        console.error('Load error:', err);
         document.getElementById('articlesContainer').innerHTML =
-            '<p style="text-align:center;padding:80px;color:#999;">文章加载失败，请刷新页面重试</p>';
+            '<div class="empty-state"><p>加载出错，请刷新</p></div>';
     }
 }
 
 // ============================================
-// 中文数字转换
+// 工具函数
 // ============================================
-function toChineseNumber(n) {
-    const map = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二', '十三'];
-    return map[n] || n;
+function cnNum(n) {
+    const m = ['','一','二','三','四','五','六','七','八','九','十',
+               '十一','十二','十三','十四','十五','十六','十七','十八','十九','二十',
+               '二十一','二十二','二十三','二十四','二十五','二十六','二十七','二十八','二十九','三十',
+               '三十一','三十二','三十三','三十四','三十五','三十六','三十七','三十八','三十九','四十',
+               '四十一','四十二','四十三','四十四','四十五','四十六'];
+    return m[n] || String(n);
+}
+
+function esc(text) {
+    const d = document.createElement('div');
+    d.textContent = text;
+    return d.innerHTML;
 }
 
 // ============================================
-// 初始化应用
+// 初始化
 // ============================================
 function initApp() {
+    updateHeroStats();
     renderNavigation();
     renderArticles();
+    setupYearFilter();
     setupScrollHandlers();
     setupMobileMenu();
     setupBackToTop();
@@ -54,158 +63,196 @@ function initApp() {
 }
 
 // ============================================
-// 渲染侧边栏导航
+// 英雄区统计
+// ============================================
+function updateHeroStats() {
+    const total = articles.length;
+    const totalChars = articles.reduce((s, a) => s + (a.word_count || 0), 0);
+    const wan = (totalChars / 10000).toFixed(1);
+    const years = [...new Set(articles.map(a => a.year))].sort();
+    
+    document.getElementById('heroDesc').textContent =
+        `${total} 篇文章，${wan} 万字思考`;
+    document.getElementById('mobileYearBadge').textContent =
+        years.join('-');
+}
+
+// ============================================
+// 侧边栏导航
 // ============================================
 function renderNavigation() {
     const navList = document.getElementById('navList');
-    const categories = {};
+    const filtered = currentYear === 'all'
+        ? articles
+        : articles.filter(a => String(a.year) === currentYear);
 
     // Group by category
-    articles.forEach(article => {
-        if (!categories[article.category]) {
-            categories[article.category] = [];
-        }
-        categories[article.category].push(article);
+    const cats = {};
+    filtered.forEach(a => {
+        const cat = a.category || '其他';
+        if (!cats[cat]) cats[cat] = [];
+        cats[cat].push(a);
     });
 
     let html = '';
-    for (const [category, items] of Object.entries(categories)) {
-        html += `<li class="nav-category">${category}</li>`;
-        items.forEach(article => {
+    for (const [cat, items] of Object.entries(cats)) {
+        html += `<li class="nav-category">${esc(cat)}</li>`;
+        items.forEach(a => {
             html += `
                 <li>
-                    <a href="#article-${article.id}" data-id="${article.id}">
-                        <span class="nav-number">${toChineseNumber(article.id)}</span>
-                        ${article.title}
+                    <a href="#article-${a.id}" data-id="${a.id}">
+                        <span class="nav-number">${cnNum(a.id)}</span>
+                        <span style="flex:1;min-width:0">${esc(a.title)}</span>
+                        <span class="nav-year-badge">${a.year}</span>
                     </a>
                 </li>`;
         });
     }
 
+    if (!filtered.length) {
+        html = '<li class="nav-category" style="text-align:center;padding:20px">暂无文章</li>';
+    }
+
     navList.innerHTML = html;
 
-    // Nav click handler
+    // Click handler
     navList.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', (e) => {
-            // Close mobile sidebar
+        link.addEventListener('click', () => {
             closeSidebar();
-            // Remove active from all
-            navList.querySelectorAll('a').forEach(a => a.classList.remove('active'));
+            navList.querySelectorAll('a').forEach(l => l.classList.remove('active'));
             link.classList.add('active');
         });
     });
 }
 
 // ============================================
-// 渲染文章
+// 文章渲染
 // ============================================
 function renderArticles() {
     const container = document.getElementById('articlesContainer');
-    let html = '';
+    const filtered = currentYear === 'all'
+        ? articles
+        : articles.filter(a => String(a.year) === currentYear);
 
-    articles.forEach(article => {
-        const paragraphs = article.content_paragraphs || [];
-        const bodyHtml = paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join('\n');
+    if (!filtered.length) {
+        container.innerHTML = '<div class="empty-state"><p>该年份暂无文章</p></div>';
+        return;
+    }
 
-        html += `
-            <article class="article-card" id="article-${article.id}">
-                <header class="article-header">
-                    <div class="article-number">第 ${toChineseNumber(article.id)} 篇</div>
-                    <h2 class="article-title">${escapeHtml(article.title)}</h2>
-                    <p class="article-subtitle">${escapeHtml(article.subtitle)}</p>
-                    <div class="article-meta">
-                        <span class="article-category">${escapeHtml(article.category)}</span>
-                        <span>约 ${Math.round(article.word_count / 100) * 100} 字</span>
-                    </div>
-                </header>
-                <div class="article-body">
-                    ${bodyHtml}
-                </div>
-            </article>`;
+    // Group by year with section headers
+    const years = {};
+    filtered.forEach(a => {
+        if (!years[a.year]) years[a.year] = [];
+        years[a.year].push(a);
     });
 
+    let html = '';
+    const yearColors = {2022:'year-2022', 2023:'year-2023', 2024:'year-2024'};
+    const yearStrs = {2022:'二〇二二', 2023:'二〇二三', 2024:'二〇二四'};
+
+    for (const [year, yearArticles] of Object.entries(years).sort()) {
+        if (currentYear === 'all') {
+            html += `<h3 class="year-section-title">${yearStrs[year] || year}</h3>`;
+        }
+
+        yearArticles.forEach(a => {
+            const paras = a.content_paragraphs || [];
+            const bodyHtml = paras.map(p => `<p>${esc(p)}</p>`).join('\n');
+            const badgeClass = yearColors[a.year] || 'year-2022';
+            const wordStr = Math.round((a.word_count || 0) / 100) * 100;
+
+            html += `
+                <article class="article-card" id="article-${a.id}" data-year="${a.year}">
+                    <header class="article-header">
+                        <span class="article-year-badge ${badgeClass}">${a.year}</span>
+                        <h2 class="article-title">${esc(a.title)}</h2>
+                        ${a.subtitle ? `<p class="article-subtitle">${esc(a.subtitle)}</p>` : ''}
+                        <div class="article-meta">
+                            <span class="article-category">${esc(a.category || '')}</span>
+                            <span>约 ${wordStr} 字</span>
+                        </div>
+                    </header>
+                    <div class="article-body">${bodyHtml}</div>
+                </article>`;
+        });
+    }
+
     container.innerHTML = html;
+
+    // Re-bind observers
+    setTimeout(() => {
+        setupScrollObservers();
+    }, 100);
 }
 
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
+// ============================================
+// 年份过滤
+// ============================================
+function setupYearFilter() {
+    const btns = document.querySelectorAll('.year-btn');
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentYear = btn.dataset.year;
+            renderNavigation();
+            renderArticles();
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
 }
 
 // ============================================
 // 滚动处理
 // ============================================
 function setupScrollHandlers() {
-    // 阅读进度条
+    // Progress bar
     window.addEventListener('scroll', () => {
-        const scrollTop = window.scrollY;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-        document.getElementById('progressBar').style.width = Math.min(progress, 100) + '%';
+        const st = window.scrollY;
+        const dh = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = dh > 0 ? (st / dh) * 100 : 0;
+        document.getElementById('progressBar').style.width = Math.min(pct, 100) + '%';
     }, { passive: true });
 
-    // 文章淡入动画 (Intersection Observer)
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-
-    document.querySelectorAll('.article-card').forEach(card => {
-        observer.observe(card);
-    });
+    setupScrollObservers();
 }
 
-// ============================================
-// 高亮当前导航
-// ============================================
-function setupActiveNavHighlight() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const id = entry.target.id;
-                const navLinks = document.querySelectorAll('#navList a');
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === '#' + id) {
-                        link.classList.add('active');
-                    }
+function setupScrollObservers() {
+    // Fade-in
+    const fadeObs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.article-card').forEach(card => fadeObs.observe(card));
+
+    // Active nav highlight
+    const navObs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                const id = e.target.id;
+                document.querySelectorAll('#navList a').forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === '#' + id);
                 });
             }
         });
-    }, {
-        threshold: 0.2,
-        rootMargin: '-80px 0px -50% 0px'
-    });
+    }, { threshold: 0.15, rootMargin: '-80px 0px -40% 0px' });
 
-    document.querySelectorAll('.article-card').forEach(card => {
-        observer.observe(card);
-    });
+    document.querySelectorAll('.article-card').forEach(card => navObs.observe(card));
 }
 
 // ============================================
 // 移动端菜单
 // ============================================
 function setupMobileMenu() {
-    const menuToggle = document.getElementById('menuToggle');
+    const toggle = document.getElementById('menuToggle');
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
 
-    menuToggle.addEventListener('click', () => {
-        const isOpen = sidebar.classList.contains('open');
-        if (isOpen) {
-            closeSidebar();
-        } else {
-            openSidebar();
-        }
+    toggle.addEventListener('click', () => {
+        const open = sidebar.classList.contains('open');
+        open ? closeSidebar() : openSidebar();
     });
-
     overlay.addEventListener('click', closeSidebar);
 }
 
@@ -228,18 +275,10 @@ function closeSidebar() {
 // ============================================
 function setupBackToTop() {
     const btn = document.getElementById('backToTop');
-
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 600) {
-            btn.classList.add('visible');
-        } else {
-            btn.classList.remove('visible');
-        }
+        btn.classList.toggle('visible', window.scrollY > 500);
     }, { passive: true });
-
-    btn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 }
 
 // ============================================
@@ -247,56 +286,39 @@ function setupBackToTop() {
 // ============================================
 function updateVisitCounter() {
     const storageKey = 'luotiantian_visit_count';
-    const sessionKey = 'luotiantian_session';
+    const sessionKey = 'luotiantian_session_v2';
 
-    // 获取当前计数
     let count = parseInt(localStorage.getItem(storageKey) || '0', 10);
     const hasVisited = sessionStorage.getItem(sessionKey);
 
-    // 新会话则计数+1
     if (!hasVisited) {
         count += 1;
-        localStorage.setItem(storageKey, count.toString());
+        localStorage.setItem(storageKey, String(count));
         sessionStorage.setItem(sessionKey, '1');
     }
 
-    // 显示计数
-    const countEl = document.getElementById('visitCount');
-    if (countEl) {
-        // 动画显示数字
-        animateNumber(countEl, 0, count, 1200);
+    const el = document.getElementById('visitCount');
+    if (el) {
+        animateCount(el, 0, count, 1000);
     }
 }
 
-function animateNumber(el, start, end, duration) {
-    const startTime = performance.now();
-
-    function update(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        // Ease out
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const current = Math.round(start + (end - start) * eased);
-
-        el.textContent = current.toLocaleString();
-
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        }
+function animateCount(el, from, to, duration) {
+    const start = performance.now();
+    function tick(now) {
+        const p = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(from + (to - from) * eased).toLocaleString();
+        if (p < 1) requestAnimationFrame(tick);
     }
-
-    requestAnimationFrame(update);
+    requestAnimationFrame(tick);
 }
 
 // ============================================
-// 键盘快捷键
+// 键盘
 // ============================================
-document.addEventListener('keydown', (e) => {
-    // ESC 关闭侧边栏
-    if (e.key === 'Escape') {
-        closeSidebar();
-    }
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeSidebar();
 });
 
 // ============================================
