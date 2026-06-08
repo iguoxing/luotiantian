@@ -61,7 +61,6 @@ function initApp() {
     setupMobileMenu();
     setupBackToTop();
     updateVisitCounter();
-    setupActiveNavHighlight();
 }
 
 // ============================================
