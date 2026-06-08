@@ -157,15 +157,18 @@
         .mgmt-articles {
             padding: 16px 0 60px;
         }
-        .mgmt-article-card {
+        .mgmt-article-card-link {
+            display: block;
             padding: 28px 0;
             border-bottom: 1px solid var(--color-divider);
+            text-decoration: none;
+            color: inherit;
             transition: all .2s;
         }
-        .mgmt-article-card:last-child {
+        .mgmt-article-card-link:last-of-type {
             border-bottom: none;
         }
-        .mgmt-article-card:hover {
+        .mgmt-article-card-link:hover {
             background: var(--mgmt-accent-soft);
             margin: 0 -16px;
             padding-left: 16px;
@@ -191,7 +194,7 @@
             display: inline;
             transition: color .2s;
         }
-        .mgmt-article-card:hover .mgmt-article-title {
+        .mgmt-article-card-link:hover .mgmt-article-title {
             color: var(--mgmt-accent);
         }
         .mgmt-article-meta {
@@ -368,7 +371,7 @@
             var yearClass = 'mgmt-year-' + a.year;
             var subtitle = a.subtitle ? '<p class="mgmt-article-subtitle">' + esc(a.subtitle) + '</p>' : '';
 
-            articlesHtml += '<div class="mgmt-article-card">';
+            articlesHtml += '<a href="management-article.html?id=' + a.id + '" class="mgmt-article-card-link">';
             articlesHtml += '<div>';
             articlesHtml += '<span class="mgmt-article-num">' + num + '</span>';
             articlesHtml += '<span class="mgmt-article-title">' + esc(a.title) + '</span>';
@@ -383,7 +386,7 @@
             var wordCount = a.content_paragraphs ? a.content_paragraphs.join('').length : 0;
             articlesHtml += '<span>约 ' + Math.round(wordCount / 1000 * 10) / 10 + 'k 字</span>';
             articlesHtml += '</div>';
-            articlesHtml += '</div>';
+            articlesHtml += '</a>';
         });
         document.getElementById('mgmtArticles').innerHTML = articlesHtml;
 

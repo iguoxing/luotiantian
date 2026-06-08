@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理心得 · 罗罗的管理进化论</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --mgmt-accent: #1a6b4b;
+            --mgmt-accent-soft: #f4faf7;
+            --mgmt-border: #c8e0d2;
+        }
+
+        /* 文章详情布局 */
+        .article-detail-page {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* 顶部导航条 */
+        .article-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--color-divider);
+            margin-bottom: 0;
+        }
+        .article-nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .article-nav-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: var(--mgmt-accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity .2s;
+        }
+        .article-nav-back:hover { opacity: .7; }
+        .article-nav-back svg { transition: transform .2s; }
+        .article-nav-back:hover svg { transform: translateX(-3px); }
+        .article-nav-cat {
+            font-size: 12px;
+            color: var(--mgmt-accent);
+            background: rgba(26,107,75,.1);
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .article-nav-index {
+            font-size: 13px;
+            color: #999;
+        }
+
+        /* 文章头部 */
+        .article-header {
+            padding: 40px 0 0;
+            text-align: center;
+        }
+        .article-header-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: #999;
+        }
+        .article-year-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .year-2022 { background: #fdf2ed; color: #c44536; }
+        .year-2023 { background: #fef6ee; color: #d4843a; }
+        .year-2024 { background: #edf4fc; color: #3a7bd4; }
+
+        .article-title {
+            font-family: var(--font-serif);
+            font-size: clamp(24px, 4vw, 36px);
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1.4;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .article-subtitle {
+            font-size: 15px;
+            color: #888;
+            line-height: 1.6;
+        }
+
+        .article-separator {
+            width: 48px;
+            height: 2px;
+            background: var(--mgmt-accent);
+            opacity: .3;
+            margin: 28px auto 0;
+            border-radius: 1px;
+        }
+
+        /* 文章内容 */
+        .article-body {
+            padding: 28px 0 60px;
+        }
+        .article-body p {
+            font-family: var(--font-serif);
+            font-size: 17px;
+            line-height: 2.05;
+            color: #1a1a1a;
+            margin-bottom: 14px;
+            text-indent: 2em;
+            text-align: justify;
+        }
+        .article-body p:first-child {
+            /* 首段可特殊处理 */
+        }
+
+        /* 文章底部导航 */
+        .article-footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 28px 0 40px;
+            border-top: 1px solid var(--color-divider);
+            margin-top: 20px;
+        }
+        .article-prev,
+        .article-next {
+            font-size: 14px;
+            color: var(--mgmt-accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity .2s;
+            max-width: 45%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .article-prev:hover,
+        .article-next:hover { opacity: .7; }
+        .article-footer-label {
+            font-size: 11px;
+            color: #bbb;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        /* 页面底部 */
+        .article-page-footer {
+            text-align: center;
+            padding: 40px 24px 40px;
+            color: #888;
+            font-size: 14px;
+            border-top: 1px solid var(--color-divider);
+        }
+        .article-page-footer-wechat {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--mgmt-accent);
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        /* 未找到文章 */
+        .article-not-found {
+            text-align: center;
+            padding: 120px 24px;
+        }
+        .article-not-found h2 {
+            font-family: var(--font-serif);
+            font-size: 28px;
+            color: #999;
+            margin-bottom: 12px;
+        }
+        .article-not-found p {
+            color: #bbb;
+            margin-bottom: 20px;
+        }
+        .article-not-found a {
+            color: var(--mgmt-accent);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* 移动端 */
+        @media (max-width: 768px) {
+            .article-detail-page { padding: 0 20px; }
+            .article-header { padding: 28px 0 0; }
+            .article-title { font-size: 22px; }
+            .article-body p { font-size: 16px; text-indent: 1.8em; }
+            .article-nav { padding: 12px 0; }
+            .article-footer-nav { flex-direction: column; gap: 12px; align-items: flex-start; padding: 20px 0 36px; }
+            .article-prev, .article-next { max-width: 100%; }
+        }
+
+        @media (max-width: 480px) {
+            .article-detail-page { padding: 0 16px; }
+            .article-title { font-size: 20px; }
+            .article-body p { font-size: 15px; line-height: 1.95; text-indent: 1.6em; }
+            .article-nav-cat { display: none; }
+            .article-header { padding: 20px 0 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 阅读进度条 -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="article-detail-page">
+        <!-- 顶部导航 -->
+        <nav class="article-nav">
+            <div class="article-nav-left">
+                <a href="management.html" class="article-nav-back">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    管理心得合集
+                </a>
+                <span class="article-nav-cat">管理心得</span>
+            </div>
+            <span class="article-nav-index" id="articleIndex"></span>
+        </nav>
+
+        <!-- 文章头部 -->
+        <header class="article-header" id="articleHeader">
+            <div class="article-header-meta">
+                <span id="articleYearBadge"></span>
+                <span id="articleWordCount"></span>
+            </div>
+            <h1 class="article-title" id="articleTitle"></h1>
+            <p class="article-subtitle" id="articleSubtitle"></p>
+            <div class="article-separator"></div>
+        </header>
+
+        <!-- 文章内容 -->
+        <div class="article-body" id="articleBody"></div>
+
+        <!-- 底部导航 -->
+        <div class="article-footer-nav" id="footerNav"></div>
+    </div>
+
+    <!-- 页面底部 -->
+    <div class="article-page-footer">
+        <p class="article-page-footer-wechat">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348z"/></svg>
+            罗罗的管理进化论
+        </p>
+        <p>关注公众号，阅读更多管理思考与职场感悟</p>
+        <p style="margin-top:12px;font-size:13px;">© 2022-2024 罗罗</p>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script>
+    (function() {
+        // 从 URL 参数获取文章 ID
+        var params = new URLSearchParams(window.location.search);
+        var articleId = parseInt(params.get('id'), 10);
+
+        // 筛选管理心得文章
+        var mgmtArticles = window.ARTICLES_DATA.filter(function(a) {
+            return a.category === '管理心得';
+        });
+
+        // 查找当前文章
+        var currentIdx = -1;
+        var article = null;
+        for (var i = 0; i < mgmtArticles.length; i++) {
+            if (mgmtArticles[i].id === articleId) {
+                article = mgmtArticles[i];
+                currentIdx = i;
+                break;
+            }
+        }
+
+        function esc(str) {
+            var d = document.createElement('div');
+            d.textContent = str || '';
+            return d.innerHTML;
+        }
+
+        // 更新页面标题
+        if (article) {
+            document.title = article.title + ' · 管理心得 · 罗罗的管理进化论';
+            document.querySelector('meta[name="description"]').setAttribute('content',
+                (article.subtitle || article.title) + '——来自罗罗的管理心得合集');
+        }
+
+        if (!article) {
+            // 未找到文章
+            document.getElementById('articleTitle').textContent = '文章未找到';
+            document.getElementById('articleBody').innerHTML = '<div class="article-not-found"><h2>😕</h2><p>找不到这篇文章</p><p><a href="management.html">← 返回管理心得合集</a></p></div>';
+            document.getElementById('footerNav').style.display = 'none';
+            return;
+        }
+
+        // 显示文章索引
+        document.getElementById('articleIndex').textContent = (currentIdx + 1) + ' / ' + mgmtArticles.length;
+
+        // 头部
+        var yearClass = 'year-' + article.year;
+        document.getElementById('articleYearBadge').innerHTML = '<span class="article-year-badge ' + yearClass + '">' + article.year + '</span>';
+        var wordCount = article.content_paragraphs ? article.content_paragraphs.join('').length : 0;
+        document.getElementById('articleWordCount').textContent = '约 ' + (Math.round(wordCount / 100) / 10).toFixed(1) + 'k 字';
+        document.getElementById('articleTitle').textContent = article.title;
+        if (article.subtitle) {
+            document.getElementById('articleSubtitle').textContent = article.subtitle;
+            document.getElementById('articleSubtitle').style.display = '';
+        } else {
+            document.getElementById('articleSubtitle').style.display = 'none';
+        }
+
+        // 正文
+        var bodyHtml = '';
+        if (article.content_paragraphs) {
+            article.content_paragraphs.forEach(function(p) {
+                bodyHtml += '<p>' + esc(p) + '</p>';
+            });
+        }
+        document.getElementById('articleBody').innerHTML = bodyHtml;
+
+        // 底部导航
+        var footerHtml = '<div>';
+        if (currentIdx > 0) {
+            var prev = mgmtArticles[currentIdx - 1];
+            footerHtml += '<a href="management-article.html?id=' + prev.id + '" class="article-prev">';
+            footerHtml += '<span class="article-footer-label">← 上一篇</span>';
+            footerHtml += esc(prev.title);
+            footerHtml += '</a>';
+        } else {
+            footerHtml += '<span></span>';
+        }
+        footerHtml += '</div>';
+        footerHtml += '<div style="text-align:right;">';
+        if (currentIdx < mgmtArticles.length - 1) {
+            var next = mgmtArticles[currentIdx + 1];
+            footerHtml += '<a href="management-article.html?id=' + next.id + '" class="article-next">';
+            footerHtml += '<span class="article-footer-label">下一篇 →</span>';
+            footerHtml += esc(next.title);
+            footerHtml += '</a>';
+        } else {
+            footerHtml += '<span></span>';
+        }
+        footerHtml += '</div>';
+        document.getElementById('footerNav').innerHTML = footerHtml;
+
+        // 进度条
+        window.addEventListener('scroll', function() {
+            var scrollTop = window.scrollY;
+            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            document.getElementById('progressBar').style.width = Math.min(progress, 100) + '%';
+        });
+
+        // 键盘导航
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' && currentIdx > 0) {
+                window.location.href = 'management-article.html?id=' + mgmtArticles[currentIdx - 1].id;
+            } else if (e.key === 'ArrowRight' && currentIdx < mgmtArticles.length - 1) {
+                window.location.href = 'management-article.html?id=' + mgmtArticles[currentIdx + 1].id;
+            }
+        });
+    })();
+    </script>
+</body>
+</html>
