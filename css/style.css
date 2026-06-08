@@ -134,7 +134,7 @@ body{font-family:var(--font-sans);font-size:16px;line-height:1.8;color:var(--col
 .articles-container{padding:32px 40px 80px;max-width:calc(var(--max-content-width) + 80px);margin:0 auto}
 
 /* --- 文章卡片 --- */
-.article-card{margin-bottom:48px;padding-bottom:48px;border-bottom:1px solid var(--color-divider);opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+.article-card{margin-bottom:48px;padding-bottom:48px;border-bottom:1px solid var(--color-divider);opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease;scroll-margin-top:80px}
 .article-card.visible{opacity:1;transform:translateY(0)}
 .article-card:last-child{border-bottom:none}
 
@@ -190,57 +190,112 @@ body{font-family:var(--font-sans);font-size:16px;line-height:1.8;color:var(--col
    移动端 (≤ 768px)
    ============================================ */
 @media (max-width:768px) {
-    :root{--sidebar-width:0}
+    :root{
+        --sidebar-width:0;
+        --color-text: #1a1a1a;
+        --color-text-secondary: #555;
+        --color-text-light: #888;
+    }
 
-    .mobile-header{display:flex}
+    body{font-size:16px;line-height:1.85}
+
+    .mobile-header{display:flex;height:56px;padding:0 16px}
+    .mobile-title{font-size:17px}
 
     .app-container{display:block}
 
     /* 侧边栏 → 抽屉 */
-    .sidebar{position:fixed;left:0;top:0;width:280px;height:100vh;height:100dvh;transform:translateX(-100%);transition:transform var(--transition-normal);z-index:850;padding:20px 18px;padding-top:68px}
+    .sidebar{position:fixed;left:0;top:0;width:288px;height:100vh;height:100dvh;transform:translateX(-100%);transition:transform var(--transition-normal);z-index:850;padding:24px 18px;padding-top:68px}
     .sidebar.open{transform:translateX(0)}
 
-    .author-avatar{width:48px;height:48px;font-size:22px}
-    .author-name{font-size:18px}
+    .sidebar-header{padding-bottom:20px}
+    .author-avatar{width:48px;height:48px;font-size:22px;margin-bottom:14px}
+    .author-name{font-size:19px}
+    .author-bio{font-size:14px;line-height:1.7;color:var(--color-text-secondary)}
+    .collection-title{font-size:15px}
+    .year-range{font-size:13px}
 
-    .main-content{margin-left:0;padding-top:52px}
+    .year-filters{padding:12px 0}
+    .year-btn{font-size:13px;padding:7px 6px}
+
+    .sidebar-wechat{margin:12px 0;padding:16px 14px}
+    .sidebar-wechat-name{font-size:15px}
+    .sidebar-wechat-hint{font-size:12px}
+
+    .nav-list a{font-size:14px;padding:10px 12px;line-height:1.6}
+    .nav-list .nav-number{font-size:12px}
+    .nav-category{font-size:12px;padding:16px 12px 6px}
+
+    .sidebar-footer{padding-top:20px}
+    .visit-counter{font-size:14px}
+    .copyright{font-size:13px}
+
+    .main-content{margin-left:0;padding-top:56px}
 
     /* 英雄区 */
-    .hero{height:80vh;height:80dvh;padding:0 20px}
-    .hero-content{padding:20px}
-    .hero-title{font-size:28px;letter-spacing:2px}
-    .hero-year{font-size:18px}
-    .hero-year.accent{font-size:56px}
-    .hero-scroll{bottom:24px}
+    .hero{height:80vh;height:80dvh;padding:0 24px}
+    .hero-content{padding:24px}
+    .hero-title{font-size:30px;letter-spacing:2px}
+    .hero-year{font-size:19px}
+    .hero-year.accent{font-size:58px}
+    .hero-desc{font-size:16px;color:var(--color-text-secondary)}
+    .hero-scroll{bottom:28px;font-size:14px}
 
     /* 文章容器 */
-    .articles-container{padding:20px 16px}
-    .year-section-title{font-size:20px;padding:32px 0 12px}
+    .articles-container{padding:24px 20px 80px}
+    .year-section-title{font-size:22px;padding:40px 0 14px}
 
-    .article-card{padding-bottom:32px;margin-bottom:36px}
-    .article-title{font-size:19px}
-    .article-body p{font-size:14px;line-height:1.85;text-align:left}
+    .article-card{padding-bottom:40px;margin-bottom:12px}
+    .article-title{font-size:21px;line-height:1.35;margin-bottom:10px}
+    .article-subtitle{font-size:15px}
+    .article-meta{font-size:13px;gap:10px;margin-top:10px}
+    .article-category{font-size:12px}
 
-    .back-to-top{bottom:20px;right:16px;width:38px;height:38px}
-    .main-footer{padding:40px 24px}
+    .article-body p{font-size:16px;line-height:2.05;margin-bottom:16px;color:var(--color-text);text-align:justify}
 
-    .wechat-cta{margin:32px 0;padding:24px 18px}
-    .wechat-cta-name{font-size:19px}
-    .wechat-cta-desc{font-size:13px}
-    .footer-wechat{padding:22px 18px}
-    .footer-wechat-name{font-size:18px}
+    .back-to-top{bottom:24px;right:20px;width:44px;height:44px}
+
+    .wechat-cta{margin:20px 0 40px;padding:28px 20px}
+    .wechat-cta-name{font-size:20px}
+    .wechat-cta-desc{font-size:14px}
+    .wechat-cta-action{font-size:14px;padding:12px 36px}
+
+    .main-footer{padding:48px 24px}
+    .footer-wechat{padding:28px 20px;margin-bottom:28px}
+    .footer-wechat-name{font-size:19px}
+    .footer-wechat-desc{font-size:14px}
+    .main-footer p{font-size:16px}
+    .footer-sub{font-size:14px!important}
+
+    .empty-state{padding:60px 20px}
 }
 
 /* --- 小屏 (≤ 480px) --- */
 @media (max-width:480px) {
     .hero{height:70vh;height:70dvh}
-    .hero-title{font-size:24px}
-    .hero-year.accent{font-size:44px}
-    .hero-year{font-size:16px}
+    .hero-title{font-size:26px}
+    .hero-year.accent{font-size:48px}
+    .hero-year{font-size:17px}
+    .hero-desc{font-size:15px}
 
-    .articles-container{padding:16px 12px}
-    .article-card{padding-bottom:24px;margin-bottom:28px}
-    .article-title{font-size:18px}
-    .article-body p{font-size:14px}
-    .year-btn{font-size:12px;padding:5px 2px}
+    .articles-container{padding:20px 16px}
+    .year-section-title{font-size:20px;padding:32px 0 12px}
+
+    .article-card{padding-bottom:36px}
+    .article-title{font-size:19px}
+    .article-body p{font-size:16px;line-height:2.0;text-align:justify}
+
+    .back-to-top{bottom:20px;right:16px;width:40px;height:40px}
+    .main-footer{padding:40px 20px}
+
+    .wechat-cta{margin:16px 0 36px;padding:24px 16px}
+    .wechat-cta-name{font-size:18px}
+    .wechat-cta-desc{font-size:13px}
+    .wechat-cta-action{padding:10px 28px}
+
+    .footer-wechat{padding:24px 16px}
+    .footer-wechat-name{font-size:18px}
+    .footer-wechat-desc{font-size:13px}
+
+    .year-btn{font-size:13px;padding:7px 4px}
 }
