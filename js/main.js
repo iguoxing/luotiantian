@@ -4,6 +4,8 @@
  */
 let articles = [];
 let currentYear = 'all';
+let fadeObserver = null;
+let navObserver = null;
 
 // ============================================
 // 加载
@@ -219,15 +221,19 @@ function setupScrollHandlers() {
 }
 
 function setupScrollObservers() {
+    // Disconnect old observers to prevent memory leaks
+    if (fadeObserver) fadeObserver.disconnect();
+    if (navObserver) navObserver.disconnect();
+
     // Fade-in
-    const fadeObs = new IntersectionObserver(entries => {
+    fadeObserver = new IntersectionObserver(entries => {
         entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-    document.querySelectorAll('.article-card').forEach(card => fadeObs.observe(card));
+    document.querySelectorAll('.article-card').forEach(card => fadeObserver.observe(card));
 
     // Active nav highlight
-    const navObs = new IntersectionObserver(entries => {
+    navObserver = new IntersectionObserver(entries => {
         entries.forEach(e => {
             if (e.isIntersecting) {
                 const id = e.target.id;
@@ -238,7 +244,7 @@ function setupScrollObservers() {
         });
     }, { threshold: 0.15, rootMargin: '-80px 0px -40% 0px' });
 
-    document.querySelectorAll('.article-card').forEach(card => navObs.observe(card));
+    document.querySelectorAll('.article-card').forEach(card => navObserver.observe(card));
 }
 
 // ============================================
